@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  WordScramble.git
+//  WordScramble
 //
 //  Created by CHIARELLO Berardino - ADECCO on 03/05/23.
 //
