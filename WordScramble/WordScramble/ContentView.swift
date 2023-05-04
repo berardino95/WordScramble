@@ -17,12 +17,15 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    @State private var score = 0
+    
     var body: some View {
         NavigationView {
             List {
                 Section {
                     TextField("Enter your word", text: $newWord)
                         .textInputAutocapitalization(.never) //turn off capitalization
+                        .autocorrectionDisabled(true)
                 }
                 
                 Section {
@@ -43,6 +46,18 @@ struct ContentView: View {
                 Button("Ok", role: .cancel) { }
             } message: {
                 Text(errorMessage)
+            }
+            .toolbar {
+                Button("Restart", action: startGame)
+            }
+            //Add an item that work as a safe area, alle the element can be covered from this text belove
+            .safeAreaInset(edge: .bottom) {
+                Text("Score: \(score)")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(.mint)
+                    .font(.title3.bold())
+                    .foregroundColor(.white)
             }
         }
     }
@@ -80,6 +95,7 @@ struct ContentView: View {
             return
         }
         
+        score += newWord.count
         
         //adding animation when appending item in the array, the result is much smother
         withAnimation{
@@ -93,6 +109,11 @@ struct ContentView: View {
     
     //The function calle onAppear that load the word from the file and convert it into an array of string passing only 1 random word to the @State var rootWord
     func startGame(){
+        
+        newWord = ""
+        userWord .removeAll()
+        score = 0
+        
         //asking Xcode to retrive the url of start.txt file
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt"){
             //load the file into a string
@@ -111,7 +132,7 @@ struct ContentView: View {
     
     //check if the word was already entered by the user
     func isOriginal(word: String) -> Bool {
-       return !userWord.contains(word)
+        return !userWord.contains(word)
     }
     
     //This func check the user input and the given word, they must have the same letter, if only one letter is different return false
