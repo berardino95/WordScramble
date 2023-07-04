@@ -36,6 +36,8 @@ struct ContentView: View {
                                 .foregroundColor(.blue)
                             Text(word)
                         }
+                        .accessibilityElement()
+                        .accessibilityLabel("world \(word ) worth \(word.count) points")
                     }
                 }
             }
@@ -58,6 +60,7 @@ struct ContentView: View {
                     .background(.mint)
                     .font(.title3.bold())
                     .foregroundColor(.white)
+                    .accessibilityLabel("Your score is \(score) \(score == 1 ? "point" : "points")")
             }
         }
     }
